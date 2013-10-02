@@ -153,24 +153,21 @@
     }
 </script>
 <script type="text/javascript">
-    $( document ).delegate("#cpmPage", "pageinit", function() {
-        
-        //initial calc run
-        calcAll();
-        
-        //calculate when we change inputs
-        $( '.cpmInput' ).bind( "change", function() {
+	$( document ).delegate("#cpmPage", "pageinit", function() {
+        	//initial calc run
+        	calcAll();
+        });
+     	
+     	//calculate when we change inputs
+	$( '.cpmInput' ).bind( "change", function() {
             calcAll();
         });
         
-        //and we when reset
+        //and when reset
         $("input[type='reset']").bind("click", function() {
             $('#probability,.ratio').text('---');
 	    $('#interpretation').text('');
         });
-
-    });
-    
 </script>
 
 
