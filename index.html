@@ -61,12 +61,8 @@
             <hr />
             <div class="results">
                 <h2>Results</h2>
-                <h3>Probability: <span id="probability">---</span></h3>
-                <div class="interpretation">
-                    <h4 class="low">Low risk</h4>
-                    <h4 class="mod">Moderate risk</h4>
-                    <h4 class="high">High risk</h4>
-                </div>
+                <h3>Probability: <span id="probability">---</span>&nbsp;<span id="interpretation"></span></h3>
+                
                 <table id="cpmTable">
                     <thead>
                         <tr>
@@ -104,19 +100,16 @@
     //
     function makeInterpretation(val){
         if(val<0){
-            $('.low,.mod,.high').hide();
+            $('#interpretation').text('');
         }
         if(val>0 && val <= 0.15){
-            $('.mod,.high').hide();
-            $('.low').show();
+            $('#interpretation').text('(Low)');
         }
         if(val>0.15 && val <=0.6){
-            $('.low,.high').hide();
-            $('.mod').show();
+            $('#interpretation').text('(Moderate)');
         }
         if(val>0.6){
-            $('.low,.mod').hide();
-            $('.high').show();
+            $('#interpretation').text('(High)');
         }
     }
     function calcAll(){
@@ -160,7 +153,7 @@
     }
 </script>
 <script type="text/javascript">
-    $( '#cpmPage' ).live( 'pageinit',function(event){
+    $( document ).delegate("#cpmPage", "pageinit", function() {
         
         //initial calc run
         calcAll();
@@ -172,8 +165,8 @@
         
         //and we when reset
         $("input[type='reset']").bind("click", function() {
-            $('#probability,#interpretation,.ratio').text('---');
-            $('.low,.mod,.high').hide();
+            $('#probability,.ratio').text('---');
+			$('#interpretation').text('');
         });
 
     });
