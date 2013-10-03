@@ -26,6 +26,16 @@
 	    color: #777;
 	    line-height: 140%
 	}
+	.input-row {
+	    border-bottom: thin solid #ddd;
+	    margin-bottom: 0.5em;
+	}
+	p.small {
+	    font-size: smaller;
+	}
+	p.advice {
+	    display: none;
+	}
 	/* Stack all blocks to start */
 	.rwd-example .ui-block-a,
 	.rwd-example .ui-block-b,
@@ -63,6 +73,10 @@
 	    .rwd-example > div:last-child .ui-body {
 		border-left-width: 0;
 	    }
+	    p.advice {
+	        display: block;
+	}
+
 	}
 	/* 2nd breakpoint - Float all, 50/25/25 */
 	@media all and (min-width: 55em) {
@@ -134,25 +148,26 @@ in the Presence of a Patent Ductus Arteriosus</a> J Am Soc Echocardiog. 2013</p>
 	<!-- Lead block -->
 	<div class="ui-block-a">
 	    <div class="ui-body ui-body-d">
-		<h2>Data</h2>
+		<h2>Inputs</h2>
+		<p class="small advice">Use the same measurement unit for all measures.</p>
 		<form method="" action="">
-		    <div data-role="fieldcontain">
+		    <div class="input-row">
 			<label for="ca">Carotid Artery:</label>
 			<input type="number" name="ca" id="ca" class="cpmInput" min="0" step="0.01" title='numbers only, up to two decimal places' />
 		    </div>
-		    <div data-role="fieldcontain">
+		    <div class="input-row">
 			<label for="dt">Distal Transverse Aorta:</label>
 			<input type="number" name="dt" id="dt" class="cpmInput" min="0" step="0.01" title='numbers only, up to two decimal places' />
 		    </div>
-		    <div data-role="fieldcontain">
+		    <div class="input-row">
 			<label for="ca_sc">Carotid Artery to Subclavian:</label>
 			<input type="number" name="ca_sc" id="ca_sc" class="cpmInput" min="0" step="0.01" title='numbers only, up to two decimal places' />
 		    </div>
-		    <div data-role="fieldcontain">
+		    <div class="input-row">
 			<label for="isthmus">Isthmus:</label>
 			<input type="number" name="isthmus" id="isthmus" class="cpmInput" min="0" step="0.01" title='numbers only, up to two decimal places' />
 		    </div>
-		    <div data-role="fieldcontain">
+		    <div class="input-row">
 			<label for="dao">Descending Aorta:</label>
 			<input type="number" name="dao" id="dao" class="cpmInput" min="0" step="0.01" title='numbers only, up to two decimal places' />
 		    </div>
@@ -167,7 +182,7 @@ in the Presence of a Patent Ductus Arteriosus</a> J Am Soc Echocardiog. 2013</p>
 	<!-- secondary block #1 -->
 	<div class="ui-block-b">
 	    <div class="ui-body ui-body-d">
-		<h4>Results</h4>
+		<h4>Output</h4>
                 <h3>Probability: <span id="probability">---</span>&nbsp;<span id="interpretation"></span></h3>
                 
                 <table id="cpmTable">
@@ -178,15 +193,15 @@ in the Presence of a Patent Ductus Arteriosus</a> J Am Soc Echocardiog. 2013</p>
                         </tr>
                     </thead>
                     <tr>
-                        <td>Carotid Artery to Distal Transverse :</td>
+                        <td>CA to DT :</td>
                         <td id="ca_dt" class="ratio" ></td>
                     </tr>
                     <tr>
-                        <td>Distal Transverse to Carotid-to-Subclavian :</td>
+                        <td>DT to CA_SC :</td>
                         <td id="dt_ca_sc" class="ratio"></td>
                     </tr>
                     <tr>
-                        <td>Isthmus to Descending Aorta :</td>
+                        <td>Isthmus to DAO :</td>
                         <td id="isthmus_dao" class="ratio"></td>
                     </tr>
                     <tbody>
@@ -198,8 +213,8 @@ in the Presence of a Patent Ductus Arteriosus</a> J Am Soc Echocardiog. 2013</p>
 	<!-- secondary block #2 -->
 	<div class="ui-block-c">
 	    <div class="ui-body ui-body-d">
-		<h4>Instructions</h4>
-		<p>image, text descriptions, etc.</p>
+		<h4>Info</h4>
+		<p>Perform measurements as per the illustration:</p>
 		<figure>
 			<img src="img/ArchMeasures.png" />
 		</figure>
@@ -208,7 +223,13 @@ in the Presence of a Patent Ductus Arteriosus</a> J Am Soc Echocardiog. 2013</p>
 	</div>
     
     </div><!-- /rwd -->
-	<p>Disclaimer: <em>not intended as clinical/surgical referral advice. If you are basing medical treatment on a calculator you found free on the internet and things go horribly wrong— you have no one to blame but yourself.</em></p>
+    <div class="ui-body">
+	<h4>More</h4>
+	<p class="low-risk">Low Risk: In a study of 154 neonates, x had a CoA probability of <15% and none of those patient developed CoA of the aorta.  These neonates have low risk of developing CoA.</p>
+	<p class="moderate-risk">Moderate Risk: In a study of 154 neonates, x had a CoA probability of 15-60%, 4 of which had CoA.  Repeat imaging is recommended.</p>
+	<p class="high-risk">High Risk: In a study of 154 neonates, 56 had a CoA probability >60% and 54 of those had CoA (96%).  Close inpatient follow up until PDA closure is recommended.</p>
+	<p><b>Disclaimer:</b> <em>not intended as clinical or surgical referral advice. If you are basing medical treatment on a calculator you found free on the internet and things go horribly wrong— you have no one to blame but yourself.</em></p>
+    </div>
 
 </div><!-- /content -->
 
