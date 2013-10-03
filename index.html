@@ -36,6 +36,11 @@
 	p.advice {
 	    display: none;
 	}
+	#footer {
+	    border-top: thin solid #777;
+	    margin-top: 3em;
+	    padding-top: 1em;
+	}
 	/* Stack all blocks to start */
 	.rwd-example .ui-block-a,
 	.rwd-example .ui-block-b,
@@ -230,6 +235,7 @@ in the Presence of a Patent Ductus Arteriosus</a> J Am Soc Echocardiog. 2013</p>
 	<p class="moderate-risk">Moderate Risk: "In a study of 154 neonates, [x] had a CoA probability of 15-60%, 4 of which had CoA."</p>
 	<p class="high-risk">High Risk: "In a study of 154 neonates, 56 had a CoA probability &gt;60% and 54 of those had CoA (96%)."</p>
 	<p><b>Disclaimer:</b> <em>Not intended as clinical or surgical referral advice.</em> Read full disclaimer <a href=https://raw.github.com/parameterz/vanderbilt-cpm/gh-pages/DISCLAIMER.md>here</a>.</p>
+	<p id="footer"></p>
     </div>
 
 </div><!-- /content -->
@@ -237,7 +243,9 @@ in the Presence of a Patent Ductus Arteriosus</a> J Am Soc Echocardiog. 2013</p>
 
 </div><!-- /page -->
 <script type="text/javascript">
-    //
+    //updated on
+    var updatedOn = '03 Oct 2013';
+    
     function makeInterpretation(val){
         if(val<0){
             $('#interpretation').text('');
@@ -296,6 +304,8 @@ in the Presence of a Patent Ductus Arteriosus</a> J Am Soc Echocardiog. 2013</p>
 	$( document ).delegate("#cpmPage", "pageinit", function() {
         	//initial calc run
         	calcAll();
+		$('#footer').text('Page updated: ' + updatedOn);
+		
         });
      	
      	//calculate when we change inputs
