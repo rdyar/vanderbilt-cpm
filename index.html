@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+﻿<!DOCTYPE html> 
 <html lang="en"> 
 	<head> 
 	<meta charset="utf-8" />
@@ -6,12 +6,328 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1"> 
 	<meta name="description" content="calculate the probability of developing a coarctation in the setting of a PDA">    
 	<meta name="author" content="Dan Dyar, MA, RDCS">
-	
+	<link rel="stylesheet" href="https://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css" />
+	<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script src="https://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>        
+	<style type="text/css">
+	/* Basic styles */
+	img {
+	    max-width: 100%;
+	}
+	.subtitle {
+	    font-style: italic;
+	    color: #555;
+	}
+	.rwd-example .ui-body {
+	    text-align: left;
+	    border-color: #ddd;
+	}
+	.rwd-example p {
+	    color: #777;
+	    line-height: 140%
+	}
+	.input-row {
+	    border-bottom: thin solid #ddd;
+	    margin-bottom: 0.5em;
+	}
+	p.small {
+	    font-size: smaller;
+	}
+	p.advice {
+	    display: none;
+	}
+	#footer {
+	    border-top: thin solid #777;
+	    margin-top: 3em;
+	    padding-top: 1em;
+	}
+	/* Stack all blocks to start */
+	.rwd-example .ui-block-a,
+	.rwd-example .ui-block-b,
+	.rwd-example .ui-block-c {
+	    width: 100%;
+	    float: none;
+	}
+	/* Collapsing borders */
+	.rwd-example > div + div .ui-body {
+	    border-top-width: 0;
+	}
+	/* 1st breakpoint - Float B and C, leave A full width on top */
+	@media all and (min-width: 42em) {
+	    .rwd-example {
+		overflow: hidden; /* Use this or a "clearfix" to give the container height */
+	    }
+	    .rwd-example .ui-body {
+	       /*min-height: 14em;*/
+	    }
+	    .rwd-example .ui-block-b,
+	    .rwd-example .ui-block-c {
+	      float: left;
+	      width: 49.95%;
+	    }
+	    .rwd-example .ui-block-b p,
+	    .rwd-example .ui-block-c p {
+	      font-size: .8em;
+	    }
+	    .rwd-example > div + div .ui-body {
+		border-top-width: 1px;
+	    }
+	    .rwd-example > div:first-child .ui-body {
+		border-bottom-width: 0;
+	    }
+	    .rwd-example > div:last-child .ui-body {
+		border-left-width: 0;
+	    }
+	    p.advice {
+	        display: block;
+	}
+
+	}
+	/* 2nd breakpoint - Float all, 50/25/25 */
+	@media all and (min-width: 55em) {
+	    .jqm-content {
+		padding-left: 11%;
+		padding-right:11%;
+	    }
+	    .rwd-example .ui-body {
+	       /*min-height: 18em;*/
+	    }
+	    .rwd-example .ui-block-a,
+	    .rwd-example .ui-block-c {
+	      float: left;
+	      width: 39.95%;
+	    }
+	    .rwd-example .ui-block-b,
+	    .rwd-example .ui-block-c {
+	      float: left;
+	      width: 29.925%;
+	    }
+	    .rwd-example > div:first-child .ui-body {
+		border-bottom-width: 1px;
+	    }
+	    .rwd-example > div + div .ui-body {
+		border-left-width: 0;
+	    }
+	}
+	/* 3rd breakpoint - Bump up font size at very wide screens */
+	@media all and (min-width: 75em) {
+
+	    .rwd-example .ui-body {
+	      font-size: 125%;
+	    }
+	    .rwd-example .ui-block-a,
+	    .rwd-example .ui-block-c {
+	      float: left;
+	      width: 39.95%;
+	    }
+	    .rwd-example .ui-block-b,
+	    .rwd-example .ui-block-c {
+	      float: left;
+	      width: 29.925%;
+	    }
+	}
+	input::-webkit-outer-spin-button,
+	input::-webkit-inner-spin-button {
+	   -webkit-appearance: none;
+	    margin: 0;
+	}
+
+        </style>
 </head> 
 <body> 
 
-	<p>hi</p>
+<div data-role="page" id="cpmPage">
+
+<div data-role="content" class="jqm-content">
+<h1 class="title">Vanderbilt CPM</h1>
+
+<h2 class="subtitle">(Coarctation Prediction Model)</h2>
+<a href="https://github.com/parameterz/vanderbilt-cpm"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+<p>Estimate the risk of developing a coarctation of the aorta in neonates with a PDA.</p>
+<p>Based on Soslow et al.,  <a rel="external" href="http://www.ncbi.nlm.nih.gov/pubmed/24070640">A Clinical Prediction Model to Estimate the Risk for Coarctation of the Aorta
+in the Presence of a Patent Ductus Arteriosus</a> J Am Soc Echocardiog. 2013</p>
 
 
+    <div class="rwd-example">
+    
+	<!-- Lead block -->
+	<div class="ui-block-a">
+	    <div class="ui-body ui-body-d">
+		<h2>Inputs</h2>
+		<p class="small advice">Use the same measurement unit for all measures.</p>
+		<form method="get" action="/">
+		    <div class="input-row">
+			<label for="ca">Carotid Artery:</label>
+			<input type="number" name="ca" id="ca" class="cpmInput" min="0" step="0.01" title='numbers only, up to two decimal places' />
+		    </div>
+		    <div class="input-row">
+			<label for="dt">Distal Transverse Aorta:</label>
+			<input type="number" name="dt" id="dt" class="cpmInput" min="0" step="0.01" title='numbers only, up to two decimal places' />
+		    </div>
+		    <div class="input-row">
+			<label for="ca_sc">Carotid Artery to Subclavian:</label>
+			<input type="number" name="ca_sc" id="ca_sc" class="cpmInput" min="0" step="0.01" title='numbers only, up to two decimal places' />
+		    </div>
+		    <div class="input-row">
+			<label for="isthmus">Isthmus:</label>
+			<input type="number" name="isthmus" id="isthmus" class="cpmInput" min="0" step="0.01" title='numbers only, up to two decimal places' />
+		    </div>
+		    <div class="input-row">
+			<label for="dao">Descending Aorta:</label>
+			<input type="number" name="dao" id="dao" class="cpmInput" min="0" step="0.01" title='numbers only, up to two decimal places' />
+		    </div>
+		    <div data-role="fieldcontain">
+			<input type="button" value="Update" />
+			<input type="reset" value="reset" />
+		    </div>
+		</form>
+	    </div>
+	</div>
+	
+	<!-- secondary block #1 -->
+	<div class="ui-block-b">
+	    <div class="ui-body ui-body-d">
+		<h4>Output</h4>
+                <h3>Probability: <span id="probability">---</span>&nbsp;<span id="interpretation"></span></h3>
+                
+                <table id="cpmTable">
+                    <thead>
+                        <tr>
+                            <th scope="col">Ratio</th>
+                            <th scope="col">Value</th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td>CA to DT :</td>
+                        <td id="ca_dt" class="ratio" ></td>
+                    </tr>
+                    <tr>
+                        <td>DT to CA_SC :</td>
+                        <td id="dt_ca_sc" class="ratio"></td>
+                    </tr>
+                    <tr>
+                        <td>Isthmus to DAO :</td>
+                        <td id="isthmus_dao" class="ratio"></td>
+                    </tr>
+                    <tbody>
+                    </tbody>
+                </table>
+	    </div>
+	</div>
+	
+	<!-- secondary block #2 -->
+	<div class="ui-block-c">
+	    <div class="ui-body ui-body-d">
+		<h4>Info</h4>
+		<p>Perform measurements as per the illustration:</p>
+		<figure>
+			<img src="img/ArchMeasures.png" alt="aortic arch measurement locations" />
+		</figure>
+		<p>[image courtesy of J. Soslow]</p>
+		<p>The model relies on calculated ratios of these various measurements. It does not matter if you use mm, cm, or furlongs- just be consistent.</p>
+	    </div>
+	</div>
+    
+    </div><!-- /rwd -->
+    <div class="ui-body">
+	<h4>More</h4>
+	<p class="low-risk">Low Risk: "In a study of 154 neonates, 77 had a CoA probability of &lt;15% and none of those patient developed CoA of the aorta."</p>
+	<p class="moderate-risk">Moderate Risk: "In a study of 154 neonates, 23 had a CoA probability of 15-60%, 4 of which had CoA."</p>
+	<p class="high-risk">High Risk: "In a study of 154 neonates, 56 had a CoA probability &gt;60% and 54 of those had CoA (96%)."</p>
+	<p><b>Disclaimer:</b> <em>Not intended as clinical or surgical referral advice.</em> Read full disclaimer <a href=https://raw.github.com/parameterz/vanderbilt-cpm/gh-pages/DISCLAIMER.md>here</a>.</p>
+	<p id="footer"></p>
+    </div>
+
+</div><!-- /content -->
+
+
+</div><!-- /page -->
+<script type="text/javascript">
+    //updated on
+    var updatedOn = '05 Apr 2021';
+    
+    function makeInterpretation(val){
+        if(val<0){
+            $('#interpretation').text('');
+        }
+        if(val>0 && val <= 0.15){
+            $('#interpretation').text('(Low)');
+        }
+        if(val>0.15 && val <=0.6){
+            $('#interpretation').text('(Moderate)');
+        }
+        if(val>0.6){
+            $('#interpretation').text('(High)');
+        }
+    }
+    function calcAll(){
+        var ca, dt, ca_sc, isthmus, dao, ratio1, ratio2, ratio3, probability;
+        ca = parseFloat($('#ca').val());
+        dt = parseFloat($('#dt').val());
+        ca_sc = parseFloat($('#ca_sc').val());
+        isthmus = parseFloat($('#isthmus').val());
+        dao = parseFloat($('#dao').val());
+        //do the ratioes
+        if( !isNaN(ca) && !isNaN(dt) ){
+            ratio1 = ca/dt;
+            $('#ca_dt').text(ratio1.toFixed(3));
+        } else {
+            $('#ca_dt').text('---');
+        }
+        if( !isNaN(dt) && !isNaN(ca_sc) ){
+            ratio2 = dt/ca_sc;
+            $('#dt_ca_sc').text(ratio2.toFixed(3));
+        } else {
+            $('#dt_ca_sc').text('---');
+        }
+        if( !isNaN(isthmus) && !isNaN(dao) ){
+            ratio3 = isthmus/dao;
+            $('#isthmus_dao').text(ratio3.toFixed(3));
+        } else {
+            $('#isthmus_dao').text('---');
+        }
+        // calculate the main model/probability
+        if( !isNaN(ratio1) && !isNaN(ratio2) && !isNaN(ratio3) ){
+            probability = 1 + Math.exp( - (-2.02 + 12.5 * ratio1 - 9.8 * ratio3 - 0.601 * ratio2 ));
+            probability = Math.pow(probability, -1);
+            $('#probability').text( (100 * probability).toFixed(2) + '%');
+            makeInterpretation(probability);
+        } else {
+            $('#probability').text('---');
+            makeInterpretation(-1);
+            
+        }
+
+    }
+</script>
+<script type="text/javascript">
+	$( document ).delegate("#cpmPage", "pageinit", function() {
+        	//initial calc run
+        	calcAll();
+		$('#footer').text('Page updated: ' + updatedOn);
+		
+        });
+     	
+     	//calculate when we change inputs
+	$( '.cpmInput' ).bind( "change", function() {
+            calcAll();
+        });
+        
+        //and when reset
+        $("input[type='reset']").bind("click", function() {
+            $('#probability,.ratio').text('---');
+	    $('#interpretation').text('');
+        });
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1939640-20', 'parameterz.github.io');
+  ga('send', 'pageview');
+
+</script>
 </body>
 </html>
